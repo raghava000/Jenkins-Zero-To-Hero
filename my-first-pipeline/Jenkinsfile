@@ -13,18 +13,22 @@ pipeline {
         }
 
         stage('Build') {
-            steps {
-                sh 'mvn clean package -DskipTests'
-            }
+    steps {
+        // We 'dir' into the folder so the shell runs inside the app directory
+        dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
+            sh 'mvn clean package -DskipTests'
         }
+    }
+}
 
-        stage('SonarQube Analysis') {
-            steps {
-                // This 'SonarQube-Server' must match the name in System Configuration
-                withSonarQubeEnv('SonarQube-Server') {
-                    sh 'mvn sonar:sonar'
-                }
+stage('SonarQube Analysis') {
+    steps {
+        dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
+            withSonarQubeEnv('SonarQube-Server') {
+                sh 'mvn sonar:sonar'
             }
         }
+    }
+}
     }
 }
