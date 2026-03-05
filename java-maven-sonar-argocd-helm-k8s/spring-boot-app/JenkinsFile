@@ -31,16 +31,21 @@ pipeline {
     }
     stage('Build and Push Docker Image') {
       environment {
-        DOCKER_IMAGE = "abhishekf5/ultimate-cicd:${BUILD_NUMBER}"
-        // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
-        REGISTRY_CREDENTIALS = credentials('docker-cred')
+        // 1. UPDATE THIS with your GCP Project ID
+        GCP_PROJECT = "project-fc676a9e-a20e-443a-a93" 
+        GCP_LOCATION = "asia-south1"
+        REPO_NAME = "ultimate-cicd"
+        
+        DOCKER_IMAGE = "${GCP_LOCATION}-docker.pkg.dev/${GCP_PROJECT}/${REPO_NAME}/spring-boot-demo:${BUILD_NUMBER}"
       }
       steps {
         script {
+            // Build the image locally
             sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
-            def dockerImage = docker.image("${DOCKER_IMAGE}")
-            docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
-                dockerImage.push()
+            
+            // 2. Use the GCP Registry URL and the Service Account Credentials
+            docker.withRegistry("https://${GCP_LOCATION}-docker.pkg.dev", "gcp-artifact-creds") {
+                docker.image("${DOCKER_IMAGE}").push()
             }
         }
       }
