@@ -50,7 +50,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'github-pat', variable: 'GITHUB_TOKEN')]) {
                     // Update the manifest file in your repo with the new image tag
                     sh "sed -i 's|image:.*|image: asia-south1-docker.pkg.dev/${env.project_id}/ultimate-cicd/spring-boot-app:${env.BUILD_NUMBER}|' k8s/deployment.yaml"
-                    sh 'git config user.email "raghava_mutharaju111@infosys.com"'
+                    sh 'git config user.email "raghava_mutharaju111@gmail.com"'
                     sh 'git config user.name "Raghava"'
                     sh "git add k8s/deployment.yaml"
                     sh "git commit -m 'Update image tag to ${env.BUILD_NUMBER}'"
