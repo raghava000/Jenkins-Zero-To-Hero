@@ -25,7 +25,7 @@ pipeline {
             steps {
                 sh 'pwd'   // Show current directory
                 sh 'ls -R' // List everything so we can see the POM location
-               dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
+               dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app/pom.xml') {
                 sh 'mvn clean package'
             }
         }
