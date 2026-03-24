@@ -23,7 +23,8 @@ pipeline {
         }
         stage('Build and Test') {
             steps {
-                sh 'mvn -f java-maven-sonar-argocd-helm-k8s/spring-boot-app/pom.xml clean package'
+               dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
+                sh 'mvn clean package'
             }
         }
         stage('Static Code Analysis') {
