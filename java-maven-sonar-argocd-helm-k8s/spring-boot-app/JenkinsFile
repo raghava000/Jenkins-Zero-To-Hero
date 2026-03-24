@@ -11,8 +11,8 @@ pipeline {
     }
     environment {
         // STRATEGIC MOVE: Replace these with your ACTUAL GCP Project and Static IPs
-        project_id = 'your-gcp-project-id' 
-        sonar_url  = 'http://10.148.0.3:9000' // Ensure this matches your Sonar VM Internal IP
+        project_id = 'verified-project-489808' 
+       // sonar_url  = 'http://10.148.0.3:9000' // Ensure this matches your Sonar VM Internal IP
     }
     stages {
         stage('Checkout') {
@@ -27,14 +27,14 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        stage('Static Code Analysis') {
+        /*stage('Static Code Analysis') {
             steps {
                 withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
                     // This will fail if Port 9000 isn't open in GCP Firewall
                     sh "mvn sonar:sonar -Dsonar.projectKey=spring-boot-app -Dsonar.host.url=${env.sonar_url} -Dsonar.login=${SONAR_TOKEN}"
                 }
             }
-        }
+        }*/
         stage('Build and Push Docker Image') {
             steps {
                 script {
