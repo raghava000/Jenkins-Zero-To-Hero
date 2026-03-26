@@ -1,6 +1,6 @@
 @Library('my-shared-lib') _
 
 commonPipeline(
-    project_id = 'verified-project-489808',
-    app_name: 'python-api-practice'
+    project_id : 'verified-project-489808',
+    app_name : 'python-api-practice'
 )
